@@ -2,6 +2,10 @@ const textarea = document.getElementById('html-input');
 const captureBtn = document.getElementById('capture-btn');
 const output = document.getElementById('image-output');
 
+const API_BASE_URL = window.location.origin.includes('localhost')
+  ? 'http://localhost:3000'
+  : window.location.origin;
+
 const defaultBlock = `
 <div id="capture" style="width: 360px; min-height: 200px; border-radius: 16px; padding: 24px; background: linear-gradient(135deg, #eef2ff, #e0ecff); color: #1f2937; box-shadow: 0 12px 30px rgba(92, 107, 247, 0.25);">
   <p style="margin: 0; font-size: 14px; opacity: 0.8;">Example</p>
@@ -16,7 +20,7 @@ async function createScreenshot() {
   output.textContent = 'Generating...';
 
   try {
-    const response = await fetch('/api/screenshot', {
+    const response = await fetch(`${API_BASE_URL}/api/screenshot`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ html: textarea.value })
