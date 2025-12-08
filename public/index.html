@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Puppeteer HTML to Image</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>Generate an image of your block</h1>
+      <section class="panel">
+        <div class="controls">
+          <label for="html-input">Block HTML</label>
+          <textarea id="html-input" rows="10"></textarea>
+          <button id="capture-btn">Capture</button>
+        </div>
+        <div class="preview">
+          <p>Result</p>
+          <div id="image-output" class="image-output">Waiting for screenshot...</div>
+        </div>
+      </section>
+    </main>
+    <script src="main.js"></script>
+  </body>
+</html>
