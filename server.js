@@ -63,10 +63,29 @@ app.post('/api/screenshot', async (req, res) => {
       return res.status(400).json({ error: 'No element with id="capture" found in provided HTML.' });
     }
 
-    const buffer = await element.screenshot({ omitBackground: true });
+    const boundingBox = await element.boundingBox();
+
+    if (!boundingBox) {
+      return res.status(400).json({ error: 'Unable to measure #capture element.' });
+    }
+
+    await page.setViewport({
+      width: Math.ceil(boundingBox.width),
+      height: Math.ceil(boundingBox.height),
+      deviceScaleFactor: 1
+    });
+
+    const buffer = await element.screenshot({
+      omitBackground: true,
+      captureBeyondViewport: true
+    });
     const image = `data:image/png;base64,${buffer.toString('base64')}`;
 
-    res.json({ image });
+    res.json({
+      image,
+      width: Math.ceil(boundingBox.width),
+      height: Math.ceil(boundingBox.height)
+    });
   } catch (error) {
     console.error('Failed to create screenshot', error);
     res.status(500).json({ error: 'Failed to generate screenshot' });
